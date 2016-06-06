@@ -4,6 +4,6 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/abhad/OneDrive/Documenten/Visual Studio 2015/Projects/GUIFramework/GUIFramework/Content/Default_Font.spritefont</File>
+    <File>C:/Users/abhad/Source/Repos/INF-DEV-GUI-Framework/GUIFramework/Content/Default_Font.spritefont</File>
   </SourceFiles>
 </SourceFileCollection>

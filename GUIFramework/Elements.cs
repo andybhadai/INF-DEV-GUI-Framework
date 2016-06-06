@@ -21,7 +21,7 @@ namespace GUIFramework
         void onLabel(Label Label);
     }
 
-    class ElementLibraryVisitor : IElementVisitor
+    class ElementVisitor : IElementVisitor
     {
         public void OnButton(Button Button)
         {
