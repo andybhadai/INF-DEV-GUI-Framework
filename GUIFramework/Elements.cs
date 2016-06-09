@@ -9,59 +9,91 @@ using Microsoft.Xna.Framework.Input;
 
 namespace GUIFramework
 {
-    interface iElement
+    interface IElement
     {
-        void visit(IElementVisitor ElementVisitor);
         void Draw();
+        void Update();
     }
 
-    interface IElementVisitor
+    interface OptionVisitor<T, U>
     {
-        void OnButton(Button Button);
-        void onLabel(Label Label);
+        U onSome(T value);
+        U onNone();
     }
 
-    class ElementVisitor : IElementVisitor
+    public interface Option<T>
     {
-        public void OnButton(Button Button)
+        U Visit<U>(Func<U> onNone, Func<T, U> onSome);
+    }
+
+    public class Some<T> : Option<T>
+    {
+        T value;
+
+        public Some(T value)
         {
-            Console.WriteLine("BUTTON!");
+            this.value = value;
         }
 
-        public void onLabel(Label Label)
+        public U Visit<U>(Func<U> onNone, Func<T, U> onSome)
         {
-            Label.Draw();
+            return onSome(value);
         }
     }
 
-    class Label : iElement
+    class None<T> : Option<T>
     {
-        Vector2 position;
-        string text;
-        SpriteBatch sprite_batch;
-        SpriteFont font;
-
-        public Label(SpriteBatch SpriteBatch, SpriteFont Font, Vector2 Position, string Text)
+        public U Visit<U>(Func<U> onNone, Func<T, U> onSome)
         {
-            this.sprite_batch = SpriteBatch;
+            return onNone();
+        }
+    }
+
+    class LambdaIOptionVisitor<T, U> : OptionVisitor<T, U>
+    {
+        Func<T, U> _onSome;
+        Func<U> _onNone;
+
+        public LambdaIOptionVisitor(Func<T, U> onSome, Func<U> onNone)
+        {
+            this._onSome = onSome;
+            this._onNone = onNone;
+        }
+
+        public U onNone()
+        {
+            return onNone();
+        }
+
+        public U onSome(T value)
+        {
+            return onSome(value);
+        }
+    }
+
+    public class Label : IElement
+    {
+        public string label_text;
+        public Vector2 label_position;
+        public SpriteBatch sprite_batch;
+        public SpriteFont font;
+
+        public Label(string LabelText, Vector2 LabelPosition, SpriteBatch spriteBatch, SpriteFont Font)
+        {
+            this.label_text = LabelText;
+            this.label_position = LabelPosition;
+            this.sprite_batch = spriteBatch;
             this.font = Font;
-            this.position = Position;
-            this.text = Text;
         }
 
         public void Draw()
         {
-            sprite_batch.DrawString(font, this.text, this.position, Color.Black);
+            sprite_batch.DrawString(this.font, this.label_text, this.label_position, Color.Black);
         }
 
-        public void visit(IElementVisitor ElementVisitor)
+        public void Update()
         {
-            ElementVisitor.onLabel(this);
+            this.label_position = new Vector2(20.20f, 40.20f);
         }
-    }
-
-    class Button
-    {
-
     }
 }

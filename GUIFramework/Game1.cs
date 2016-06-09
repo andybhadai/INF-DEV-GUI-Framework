@@ -1,18 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace GUIFramework
 {
-    /// <summary>
-    /// This is the main type for your game.
-    /// </summary>
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
-        Label DefaultLabel;
+        List<Label> LabelList = new List<Label>();
 
         public Game1()
         {
@@ -22,7 +21,6 @@ namespace GUIFramework
 
         protected override void Initialize()
         {
-
             base.Initialize();
         }
 
@@ -31,8 +29,9 @@ namespace GUIFramework
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             font = Content.Load<SpriteFont>("Default_Font");
-
-            DefaultLabel = new Label(spriteBatch, font, new Vector2(0.0f, 0.0f), "Test");
+            LabelList.Add(new Label("Label 1", new Vector2(0, 0), spriteBatch, font));
+            LabelList.Add(new Label("Label 2", new Vector2(50, 0), spriteBatch, font));
+            LabelList.Add(new Label("Label 3", new Vector2(100, 0), spriteBatch, font));
         }
 
         protected override void UnloadContent()
@@ -52,12 +51,16 @@ namespace GUIFramework
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // Create the visitor
-            ElementVisitor ElementVisitor = new ElementVisitor();
-
             spriteBatch.Begin();
-                // Draw the label
-                DefaultLabel.visit(ElementVisitor);
+
+            // Draw every label
+            foreach(var label in LabelList)
+            {
+                Option<Label> LabelOption = new Some<Label>(label);
+                LabelOption.Visit<object>
+                    (() => { throw new Exception("Expecting a label!"); }, l => { l.Draw(); return null; });
+            }
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
