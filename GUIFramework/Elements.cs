@@ -96,4 +96,38 @@ namespace GUIFramework
             this.label_position = new Vector2(20.20f, 40.20f);
         }
     }
+
+    abstract class Button
+    {
+
+        public static Button Create(int id)
+        {
+            if(id == 1)
+            {
+                return new DefaultButton();
+            }
+
+            throw new Exception("Not a button!");
+        }
+
+        public abstract void Draw();
+        public abstract void Update();
+    }
+
+    class DefaultButton : Button
+    {
+        public DefaultButton() : base()
+        {
+        }
+
+        public override void Draw()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
