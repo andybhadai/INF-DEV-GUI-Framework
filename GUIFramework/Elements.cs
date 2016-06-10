@@ -11,7 +11,7 @@ namespace GUIFramework
 {
     interface IElement
     {
-        void Draw();
+        void Draw(SpriteBatch spriteBatch, SpriteFont Font);
         void Update();
     }
 
@@ -78,16 +78,16 @@ namespace GUIFramework
         public SpriteBatch sprite_batch;
         public SpriteFont font;
 
-        public Label(string LabelText, Vector2 LabelPosition, SpriteBatch spriteBatch, SpriteFont Font)
+        public Label(string LabelText, Vector2 LabelPosition)
         {
             this.label_text = LabelText;
             this.label_position = LabelPosition;
-            this.sprite_batch = spriteBatch;
-            this.font = Font;
         }
 
-        public void Draw()
+        public void Draw(SpriteBatch spriteBatch, SpriteFont Font)
         {
+            this.sprite_batch = spriteBatch;
+            this.font = Font;
             sprite_batch.DrawString(this.font, this.label_text, this.label_position, Color.Black);
         }
 

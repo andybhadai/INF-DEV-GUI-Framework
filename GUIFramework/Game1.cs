@@ -29,9 +29,9 @@ namespace GUIFramework
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             font = Content.Load<SpriteFont>("Default_Font");
-            LabelList.Add(new Label("Label 1", new Vector2(0, 0), spriteBatch, font));
-            LabelList.Add(new Label("Label 2", new Vector2(50, 0), spriteBatch, font));
-            LabelList.Add(new Label("Label 3", new Vector2(100, 0), spriteBatch, font));
+            LabelList.Add(new Label("Label 1", new Vector2(0, 0)));
+            LabelList.Add(new Label("Label 2", new Vector2(50, 0)));
+            LabelList.Add(new Label("Label 3", new Vector2(100, 0)));
         }
 
         protected override void UnloadContent()
@@ -58,7 +58,7 @@ namespace GUIFramework
             {
                 Option<Label> LabelOption = new Some<Label>(label);
                 LabelOption.Visit<object>
-                    (() => { throw new Exception("Expecting a label!"); }, l => { l.Draw(); return null; });
+                    (() => { throw new Exception("Expecting a label!"); }, l => { l.Draw(spriteBatch, font); return null; });
             }
 
             spriteBatch.End();
