@@ -97,10 +97,20 @@ namespace GUIFramework
         }
     }
 
-    abstract class Button
+    interface Button
     {
+        void Draw();
+        void Update();
+    }
 
-        public static Button Create(int id)
+    abstract class ButtonFactory
+    {
+        public abstract Button Create(int id);
+    }
+
+    class SimpleButtonFactory : ButtonFactory
+    {
+        public override Button Create(int id)
         {
             if(id == 1)
             {
@@ -109,23 +119,18 @@ namespace GUIFramework
 
             throw new Exception("Not a button!");
         }
-
-        public abstract void Draw();
-        public abstract void Update();
     }
 
     class DefaultButton : Button
     {
-        public DefaultButton() : base()
+        public DefaultButton() { }
+
+        public void Draw()
         {
+            Console.WriteLine("Default button!");
         }
 
-        public override void Draw()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update()
+        public void Update()
         {
             throw new NotImplementedException();
         }

@@ -12,6 +12,7 @@ namespace GUIFramework
         SpriteBatch spriteBatch;
         SpriteFont font;
         List<Label> LabelList = new List<Label>();
+        List<Button> ButtonList = new List<Button>();
 
         public Game1()
         {
@@ -33,6 +34,10 @@ namespace GUIFramework
             LabelList.Add(new Label("Label 1", new Vector2(0, 0)));
             LabelList.Add(new Label("Label 2", new Vector2(50, 0)));
             LabelList.Add(new Label("Label 3", new Vector2(100, 0)));
+
+            SimpleButtonFactory SimpleButtonFactory = new SimpleButtonFactory();
+            Button SampleButton = SimpleButtonFactory.Create(1);
+            ButtonList.Add(SampleButton);
         }
 
         protected override void UnloadContent()
@@ -53,6 +58,11 @@ namespace GUIFramework
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             spriteBatch.Begin();
+
+            foreach(var button in ButtonList)
+            {
+                button.Draw();
+            }
 
             // Draw every label
             foreach(var label in LabelList)
